@@ -1,11 +1,14 @@
 // ignore: avoid_web_libraries_in_flutter
 
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 import 'package:my_app/constants.dart';
 import 'package:my_app/models/Product.dart';
 
+
+
+
 import 'categorries.dart';
+import 'item_card.dart';
 
 class Body extends StatelessWidget {
   get theme => null;
@@ -27,13 +30,19 @@ class Body extends StatelessWidget {
         ),
         Categories(),
         Expanded(
-          child: GridView.builder(
-            itemCount: products.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 0.75,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
+            child: GridView.builder(
+              itemCount: products.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: kDefaultPaddin,
+                crossAxisSpacing: kDefaultPaddin,
+                childAspectRatio: 0.75,
+              ),
+              itemBuilder: (context, index) => 
+              ItemCard(product: products[index]),
             ),
-            itemBuilder: (context, index) => ItemCard(),
           ),
         ),
       ],
@@ -41,41 +50,3 @@ class Body extends StatelessWidget {
   }
 }
 
-class ItemCard extends StatelessWidget {
-  final Product product;
-  final Function press;
-  const ItemCard({
-    Key key,
-    this.product,
-    this.press,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: EdgeInsets.all(kDefaultPaddin),
-          height: 180,
-          width: 160,
-          decoration: BoxDecoration(
-              color: products[0].color,
-              borderRadius: BorderRadius.circular(12)),
-          child: Image.asset(products[0].image),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: kDefaultPaddin / 4),
-          child: Text(
-            products[0].title,
-            style: TextStyle(color: kTextLightColor),
-          ),
-        ),
-        Text(
-          "\$234",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        )
-      ],
-    );
-  }
-}
